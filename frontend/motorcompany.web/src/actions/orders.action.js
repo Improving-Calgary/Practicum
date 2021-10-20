@@ -1,4 +1,4 @@
-import * as api from "../api/orders.api";
+import * as api from "../mocks/api/orders.api";
 import {
   ORDER_BUILD_VEHICLE_GET,
   ORDER_BUILD_REQUEST,
@@ -12,8 +12,9 @@ import {
   ORDER_PUT_RESPONSE,
   ORDER_STATES
 } from "../action-types";
+import orderState from './order-state';
 
-import { mapFromDto, mapSingleFromDto } from "./mappers";
+import { toOrders } from "./mappers";
 
 export function onBuild(payload) {
   return { type: ORDER_BUILD_VEHICLE_GET, payload };
@@ -23,35 +24,34 @@ export function onOrderSubmitted() {
   return { type: ORDER_BUILD_SUBMITTED };
 }
 
-export const onGetOrders = filter => dispatch => {
-  getOrders(`?state=${filter}`, false, dispatch);
-};
-
-export const onGetGivenOrder = id => dispatch => {
-  getOrders(`/${id}`, true, dispatch);
-};
-
-export const onGetNextOrder = () => dispatch => {
-  getOrders(`/next`, true, dispatch);
-};
-
 export const onClearErrors = () => dispatch => {
   dispatch({ type: ORDERS_CLEAR_ERRORS });
 };
 
-const getOrders = (filter, isSingle, dispatch) => {
+const getOrders = (fetch, dispatch) => {
   dispatch({ type: ORDERS_GET_REQUEST });
-  api
-    .getOrders(filter)
-    .then(dto =>
+  fetch()
+    .then(dto => {
       dispatch({
         type: ORDERS_GET_RESPONSE,
-        payload: isSingle === true ? mapSingleFromDto(dto) : mapFromDto(dto)
+        payload: toOrders(dto)
       })
-    )
+    })
     .catch(errorsDto => {
       dispatch({ type: ORDERS_ERRORS, payload: errorsDto });
     });
+};
+
+export const onGetOrders = state => dispatch => {
+  getOrders(() => api.getOrders(state), dispatch);
+};
+
+export const onGetGivenOrder = id => dispatch => {
+  getOrders(() => api.getOrder(id), dispatch);
+};
+
+export const onGetNextOrder = () => dispatch => {
+  getOrders(() => api.getOrders(orderState.started), dispatch);
 };
 
 export const onSetOrderState = (id, state) => dispatch => {
