@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  db:
+    ports:
+      - "1440:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "MotorCompany@123"
+      MSSQL_USER: "SA"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - "./db-data/:/var/opt/mssql"
+
+  motorcompany.orders.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=MotorCompany;User Id=SA;Password=MotorCompany@123
+    ports:
+      - "7200:80"

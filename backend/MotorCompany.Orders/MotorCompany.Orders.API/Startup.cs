@@ -29,7 +29,12 @@ namespace MotorCompany.Orders.API
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                var swaggerInfo = SwaggerInfo.Create();
+                c.SwaggerDoc(swaggerInfo.Version, new OpenApiInfo
+                {
+                    Title = swaggerInfo.Title, 
+                    Version = swaggerInfo.Version
+                });
             });
 
             services.AddCors();
@@ -53,7 +58,8 @@ namespace MotorCompany.Orders.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                var swaggerInfo = SwaggerInfo.Create();
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", swaggerInfo.Name);
                 c.RoutePrefix = string.Empty;
             });
 

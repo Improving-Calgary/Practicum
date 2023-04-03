@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  db:
+    image: mcr.microsoft.com/azure-sql-edge
+    container_name: "mc-database"
+
+  motorcompany.orders.api:
+    image: ${DOCKER_REGISTRY-}motorcompanyorders
+    container_name: "mc-orders"
+    build:
+      context: .
+      dockerfile: MotorCompany.Orders.API/Dockerfile
+    depends_on:
+      - db
