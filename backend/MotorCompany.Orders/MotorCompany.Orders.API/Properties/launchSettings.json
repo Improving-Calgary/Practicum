@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "VPM.Parkplus.Zone.API": {
+    "MotorCompany.Orders.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "",

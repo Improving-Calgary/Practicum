@@ -1,9 +1,10 @@
 using MotorCompany.Orders.Core.Commands;
-using Xunit;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MotorCompany.Orders.Core.Tests.GivenWhenThen
 {
+    [TestClass]
     public class WhenCreatingInValidOrder : CreateOrderCommandHandlerTestSpec
     {
         public override void Given()
@@ -13,19 +14,19 @@ namespace MotorCompany.Orders.Core.Tests.GivenWhenThen
             _command = new CreateOrderCommand(-1, -21);
         }
 
-        [Fact]
+        [TestMethod]
         public void ThenShouldFail()
         {
             _result.Failed.Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void ThenShouldReturnNoOrder()
         {
             _result.Value.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void ThenShouldReturnErrors()
         {
             _result.Errors.Should().HaveCount(2);

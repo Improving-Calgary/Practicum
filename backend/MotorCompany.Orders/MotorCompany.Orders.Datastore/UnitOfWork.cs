@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MotorCompany.Orders.Core.Utility;
+﻿using MotorCompany.Orders.Core.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;

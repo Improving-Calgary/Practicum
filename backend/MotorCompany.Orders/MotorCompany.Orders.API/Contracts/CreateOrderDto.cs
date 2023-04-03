@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MotorCompany.Orders.API.Contracts
+﻿namespace MotorCompany.Orders.API.Contracts
 {
     public class CreateOrderDto
     {

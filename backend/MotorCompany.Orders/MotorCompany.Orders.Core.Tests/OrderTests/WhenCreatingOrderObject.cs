@@ -1,12 +1,13 @@
-﻿using Xunit;
+﻿using System.Linq;
 using FluentAssertions;
-using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MotorCompany.Orders.Core.Tests.ArrangeActAssert
+namespace MotorCompany.Orders.Core.Tests.OrderTests
 {
+    [TestClass]
     public class WhenCreatingOrderObject
     {
-        [Fact]
+        [TestMethod]
         public void ShouldNotAllowOrderCreationForInvalidParams()
         {
             var result = Order.Create(0, 1);
@@ -14,7 +15,7 @@ namespace MotorCompany.Orders.Core.Tests.ArrangeActAssert
             result.Value.Should().BeNull();
         }
 
-        [Fact]
+        [TestMethod]
         public void ShouldFailOrderCreationForInvalidParams()
         {
             var result = Order.Create(0, 1);
@@ -22,12 +23,12 @@ namespace MotorCompany.Orders.Core.Tests.ArrangeActAssert
             result.Failed.Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void ShouldReturnFailureErrorCodeForInvalidCustomer()
         {
             var result = Order.Create(0, 1);
 
-            result.Errors.FirstOrDefault().Detail.Should().Be("Customer id must be valid.");
+            result.Errors.FirstOrDefault()?.Detail.Should().Be("Customer id must be valid.");
         }
     }
 }

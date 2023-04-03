@@ -1,11 +1,11 @@
-﻿using Xunit;
+﻿using System.Linq;
 using FluentAssertions;
-using System.Linq;
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MotorCompany.Orders.Core.Tests.ArrangeActAssert
+namespace MotorCompany.Orders.Core.Tests.OrderTests
 {
-    public class WhenOrderStateIsBeingChangedToComplete : IDisposable
+    [TestClass]
+    public class WhenOrderStateIsBeingChangedToComplete
     {
         private Order _sut;
 
@@ -14,7 +14,7 @@ namespace MotorCompany.Orders.Core.Tests.ArrangeActAssert
             _sut = Order.Create(1, 1).Value;
         }
 
-        [Fact]
+        [TestMethod]
         public void ShouldChangeStateToComplete()
         {
             _sut.Start();
@@ -24,7 +24,7 @@ namespace MotorCompany.Orders.Core.Tests.ArrangeActAssert
             _sut.State.Should().Be(EnumOrderStates.Complete);
         }
 
-        [Fact]
+        [TestMethod]
         public void ShouldNotAllowStateChangeIfNotStarted()
         {
             var result = _sut.Complete();
@@ -32,7 +32,7 @@ namespace MotorCompany.Orders.Core.Tests.ArrangeActAssert
             _sut.State.Should().NotBe(EnumOrderStates.Complete);
         }
 
-        [Fact]
+        [TestMethod]
         public void ShouldFailIfNotStarted()
         {
             var result = _sut.Complete();
@@ -40,17 +40,12 @@ namespace MotorCompany.Orders.Core.Tests.ArrangeActAssert
             result.Failed.Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void ShouldReturnFailureErrorCodeForCompleteIfNotStarted()
         {
             var result = _sut.Complete();
 
-            result.Errors.FirstOrDefault().Detail.Should().Be("Order must be started.");
-        }
-
-        public void Dispose()
-        {
-            _sut = null;
+            result.Errors.FirstOrDefault()?.Detail.Should().Be("Order must be started.");
         }
     }
 }

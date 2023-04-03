@@ -27,40 +27,36 @@ namespace MotorCompany.Orders.API.Controllers
         public async Task<ActionResult> Get(EnumOrderStates state)
         {
             var result = await _mediator.Send(new GetOrdersQuery(state));
-
-            if (result.Succeeded) return result.Value.AsGetResult();
-
-            return result.ToJsonApiErrors(_mapper).AsNotFoundErrorResult();
+            return result.Succeeded 
+                ? result.Value.AsGetResult() 
+                : result.ToJsonApiErrors(_mapper).AsNotFoundErrorResult();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)
         {
             var result = await _mediator.Send(new GetOrderQuery(id));
-
-            if (result.Succeeded) return result.Value.AsGetResult();
-
-            return result.ToJsonApiErrors(_mapper).AsNotFoundErrorResult();
+            return result.Succeeded 
+                ? result.Value.AsGetResult() 
+                : result.ToJsonApiErrors(_mapper).AsNotFoundErrorResult();
         }
 
         [HttpGet("next")]
         public async Task<ActionResult> Next()
         {
             var result = await _mediator.Send(new GetNextOrderQuery());
-
-            if (result.Succeeded) return result.Value.AsGetResult();
-
-            return result.ToJsonApiErrors(_mapper).AsNotFoundErrorResult();
+            return result.Succeeded 
+                ? result.Value.AsGetResult() 
+                : result.ToJsonApiErrors(_mapper).AsNotFoundErrorResult();
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(CreateOrderDto createOrderDto)
         {
             var result = await _mediator.Send(new CreateOrderCommand(createOrderDto.CustomerId, createOrderDto.VehicleId));
-
-            if (result.Succeeded) return _mapper.Map<OrderDto>(result.Value).AsPostResult(); 
-
-            return result.ToJsonApiErrors(_mapper).AsBadRequestErrorResult();
+            return result.Succeeded 
+                ? _mapper.Map<OrderDto>(result.Value).AsPostResult() 
+                : result.ToJsonApiErrors(_mapper).AsBadRequestErrorResult();
         }
 
         [HttpPut("{id}/start")]

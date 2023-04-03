@@ -1,4 +1,4 @@
-﻿namespace MotorCompany.Orders.Core.Tests.GivenWhenThen
+﻿namespace MotorCompany.Orders.Core.Tests.CreateOrderHandlerTests
 {
     public class TestSpec<T>
     {

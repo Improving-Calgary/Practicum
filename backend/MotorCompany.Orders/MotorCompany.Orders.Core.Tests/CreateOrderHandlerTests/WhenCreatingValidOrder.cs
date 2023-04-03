@@ -1,12 +1,13 @@
-﻿using MotorCompany.Orders.Core.Commands;
-using Xunit;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MotorCompany.Orders.Core.Commands;
+using MotorCompany.Orders.Core.Tests.GivenWhenThen;
 using MotorCompany.Orders.Core.Utility;
-using System.Threading.Tasks;
 using NSubstitute;
 
-namespace MotorCompany.Orders.Core.Tests.GivenWhenThen
+namespace MotorCompany.Orders.Core.Tests.CreateOrderHandlerTests
 {
+    [TestClass]
     public class WhenCreatingValidOrder : CreateOrderCommandHandlerTestSpec
     {
         public override void Given()
@@ -21,13 +22,13 @@ namespace MotorCompany.Orders.Core.Tests.GivenWhenThen
 
         }
 
-        [Fact]
+        [TestMethod]
         public void ThenShouldSucceeded()
         {
             _result.Succeeded.Should().BeTrue();
         }
 
-        [Fact]
+        [TestMethod]
         public void ThenShouldReturnCreatedOrder()
         {
             _result.Value.Should().NotBeNull();

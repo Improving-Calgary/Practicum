@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MediatR;
-using AutoMapper;
 using MotorCompany.Orders.Datastore.SQLServer;
 using Microsoft.EntityFrameworkCore;
 using MotorCompany.Orders.API.Utility;
@@ -44,11 +43,11 @@ namespace MotorCompany.Orders.API
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddLogging();
-            services.AddTransient<IApiConfigueration, ApiConfigueration>();
+            services.AddTransient<IApiConfiguration, ApiConfiguration>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiConfigueration apiConfig)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiConfiguration apiConfig)
         {                     
             app.UseSwagger();
 
